@@ -1,0 +1,27 @@
+# Maven
+target/
+*/target/
+
+# Logs
+logs/
+*.log
+
+# IntelliJ / IDEA
+.idea/
+*.iml
+out/
+
+# Eclipse / STS
+.project
+.classpath
+.settings/
+
+# MacOS
+.DS_Store
+
+# Build artifacts
+*.jar
+*.war
+
+# Docker
+docker-images/

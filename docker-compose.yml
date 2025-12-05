@@ -1,0 +1,66 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: keep-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      # optional default DB, others are created via createDatabaseIfNotExist
+      MYSQL_DATABASE: ${MYSQL_AUTH_DB}
+    ports:
+      - "3307:3306"
+    command: --default-authentication-plugin=mysql_native_password
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  auth-service:
+    build:
+      context: ./auth-service
+      dockerfile: Dockerfile
+    container_name: keep-auth-service
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+
+      # DB config for auth-service
+      SPRING_DATASOURCE_URL: jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/${MYSQL_AUTH_DB}?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: ${MYSQL_APP_USER}
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_APP_PASSWORD}
+
+      # Shared JWT secret
+      SECURITY_JWT_SECRET: ${JWT_SECRET}
+    ports:
+      - "${AUTH_HTTP_PORT}:8081"
+
+  notes-service:
+    build:
+      context: ./notes-service
+      dockerfile: Dockerfile
+    container_name: keep-notes-service
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+
+      # DB config for notes-service
+      SPRING_DATASOURCE_URL: jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/${MYSQL_NOTES_DB}?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: ${MYSQL_APP_USER}
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_APP_PASSWORD}
+
+      # Same JWT secret to validate auth tokens
+      SECURITY_JWT_SECRET: ${JWT_SECRET}
+    ports:
+      - "${NOTES_HTTP_PORT}:8082"
+
+volumes:
+  mysql_data:
