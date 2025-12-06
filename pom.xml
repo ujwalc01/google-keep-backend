@@ -26,6 +26,7 @@
     <module>reminder-service</module>
     <module>attachment-service</module>
     <module>gateway-service</module>
+    <module>search-service</module>
   </modules>
 
   <build>

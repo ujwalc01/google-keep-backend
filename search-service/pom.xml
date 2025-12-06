@@ -37,4 +37,39 @@
             <optional>true</optional>
         </dependency>
     </dependencies>
+    
+    <build>
+    <plugins>
+        <!-- Compile with Java 17 -->
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.14.1</version>
+            <configuration>
+                <release>17</release>
+                <annotationProcessorPaths>
+                    <path>
+                        <groupId>org.projectlombok</groupId>
+                        <artifactId>lombok</artifactId>
+                        <version>${lombok.version}</version>
+                    </path>
+                </annotationProcessorPaths>
+            </configuration>
+        </plugin>
+
+        <!-- IMPORTANT: Spring Boot plugin to make executable jar -->
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <version>4.0.0</version>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>repackage</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+    </plugins>
+</build>
 </project>
