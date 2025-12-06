@@ -69,23 +69,7 @@
 		</dependency>
 		
 		<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt -->
-<dependency>
-  <groupId>io.jsonwebtoken</groupId>
-  <artifactId>jjwt-api</artifactId>
-  <version>0.12.6</version>
-</dependency>
-<dependency>
-  <groupId>io.jsonwebtoken</groupId>
-  <artifactId>jjwt-impl</artifactId>
-  <version>0.12.6</version>
-  <scope>runtime</scope>
-</dependency>
-<dependency>
-  <groupId>io.jsonwebtoken</groupId>
-  <artifactId>jjwt-jackson</artifactId>
-  <version>0.12.6</version>
-  <scope>runtime</scope>
-</dependency>
+
 
 <dependency>
     <groupId>org.springframework.boot</groupId>
@@ -96,10 +80,19 @@
     <groupId>org.flywaydb</groupId>
     <artifactId>flyway-core</artifactId>
 </dependency>
+
 <dependency>
     <groupId>org.flywaydb</groupId>
     <artifactId>flyway-mysql</artifactId>
 </dependency>
+
+
+<dependency>
+    <groupId>com.app.keep</groupId>
+    <artifactId>core-common</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+</dependency>
+
 
 	</dependencies>
 

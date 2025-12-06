@@ -19,9 +19,13 @@
   </properties>
 
   <modules>
+	  
+	<module>core-common</module>
     <module>auth-service</module>
     <module>notes-service</module>
-    
+    <module>reminder-service</module>
+    <module>attachment-service</module>
+    <module>gateway-service</module>
   </modules>
 
   <build>

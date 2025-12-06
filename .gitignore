@@ -25,3 +25,21 @@ out/
 
 # Docker
 docker-images/
+
+
+
+# Spring config with secrets (only if you don’t want to track them)
+auth-service/src/main/resources/application-*.properties
+notes-service/src/main/resources/application-*.properties
+
+# Env files
+.env
+*.env
+
+# Spring config with secrets
+auth-service/src/main/resources/application-*.properties
+notes-service/src/main/resources/application-*.properties
+
+
+# docker-compose.yml
+

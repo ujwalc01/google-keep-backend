@@ -1,27 +1,39 @@
 package com.keep.notes.security;
 
-import java.util.Collection;
-import java.util.Collections;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-@Getter
-@AllArgsConstructor
+import java.util.Collection;
+import java.util.List;
+
 public class JwtUserPrincipal implements UserDetails {
 
-    private Long userId;
-    private String email;
+    private final Long userId;
+    private final String email;
+
+    public JwtUserPrincipal(Long userId, String email) {
+        this.userId = userId;
+        this.email = email;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public String getEmail() {
+        return email;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList(); // you can map roles later if needed
+        // You can later map real roles from claims; for now, treat everyone as ROLE_USER
+        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
     @Override
     public String getPassword() {
-        return null;
+        return null; // Not used: we authenticate using JWT only
     }
 
     @Override
